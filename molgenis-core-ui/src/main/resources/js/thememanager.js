@@ -2,7 +2,7 @@
 	"use strict";
 
 	$(function() {
-		var styleName;
+		var styleName = $('#bootstrap-theme-select').find(":selected").text();
 
 		$('#bootstrap-theme-select').on('change', function() {
 			// Set selected style name to use in ajax post

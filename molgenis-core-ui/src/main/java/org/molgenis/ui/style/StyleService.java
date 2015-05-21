@@ -1,15 +1,15 @@
 package org.molgenis.ui.style;
 
-import java.util.Set;
+import java.util.Collection;
 
 public interface StyleService
 {
 	/**
 	 * Scans the bootswatch API and the file system for bootstrap theme css files stores them in a list
 	 * 
-	 * @return A Set of available Styles found on the file system and via the bootswatch API
+	 * @return A Collection of available Styles found on the file system and via the bootswatch API
 	 */
-	public Set<Style> getAvailableStyles();
+	public Collection<Style> getAvailableStyles();
 
 	/**
 	 * Set the runtime property that controls the css style via a selected style
