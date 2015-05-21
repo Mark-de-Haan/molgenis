@@ -1,57 +1,73 @@
 package org.molgenis.ui.style;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashSet;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.TreeMap;
 
 import org.molgenis.framework.server.MolgenisSettings;
 import org.molgenis.ui.MolgenisPluginInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 
-@Component
 public class StyleServiceImpl implements StyleService
 {
-	private static final String LOCAL_CSS_BOOTSTRAP_THEME_LOCATION = "css/themes/bootstrap-*.min.css";
+	private static final String LOCAL_CSS_BOOTSTRAP_THEME_LOCATION = "css/themes/bootstrap-*.css";
 	private static final String THEME_NAME_KEY = "name";
 	private static final String CSS_MIN_KEY = "cssMin";
 	private static final String THEMES_KEY = "themes";
-	private static final String BOOTSWATCH_API_URL = "http://api.bootswatch.com/3/";
+	static final String BOOTSWATCH_API_URL = "http://api.bootswatch.com/3/";
 	private static final String CSS_THEME_KEY = MolgenisPluginInterceptor.MOLGENIS_CSS_THEME;
+
+	private static final Logger LOG = LoggerFactory.getLogger(StyleServiceImpl.class);
 
 	@Autowired
 	private MolgenisSettings molgenisSettings;
 
+	@Autowired
+	private RestTemplate restTemplate;
+
+	private ClientHttpRequestFactory clientHttpRequestFactory;
+
+	public StyleServiceImpl(ClientHttpRequestFactory clientHttpRequestFactory)
+	{
+		this.clientHttpRequestFactory = clientHttpRequestFactory;
+	}
+
 	@Override
 	@SuppressWarnings("unchecked")
-	public Set<Style> getAvailableStyles()
+	public Collection<Style> getAvailableStyles()
 	{
-		Set<Style> availableStyles = new HashSet<Style>();
+		Map<String, Style> availableStyles = new TreeMap<String, Style>();
 
-		if (isURLReachable(BOOTSWATCH_API_URL, 200))
+		if (isURLReachable(BOOTSWATCH_API_URL))
 		{
-			RestTemplate restTemplate = new RestTemplate();
 			String jsonString = restTemplate.getForObject(BOOTSWATCH_API_URL, String.class, "");
 
 			Gson gson = new Gson();
-			Map<String, List<LinkedTreeMap<String, String>>> bootSwatchApiResponse = gson.fromJson(jsonString,
-					Map.class);
+			Map<String, List<Map<String, String>>> bootSwatchApiResponse = gson.fromJson(jsonString, Map.class);
 
-			List<LinkedTreeMap<String, String>> themes = bootSwatchApiResponse.get(THEMES_KEY);
+			List<Map<String, String>> themes = bootSwatchApiResponse.get(THEMES_KEY);
 
 			// Replace 'http://' with '//' to allow the parent page to set the protocol to either https or http
-			themes.forEach(tree -> availableStyles.add(Style.createRemote(tree.get(CSS_MIN_KEY).replace("http:", ""),
-					tree.get(THEME_NAME_KEY))));
+			themes.forEach(tree -> {
+				Style style = Style.createRemote(tree.get(CSS_MIN_KEY).replace("http:", ""), tree.get(THEME_NAME_KEY));
+				availableStyles.put(style.getName(), style);
+			});
 		}
 
 		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -60,8 +76,11 @@ public class StyleServiceImpl implements StyleService
 			Resource[] resources = resolver.getResources(LOCAL_CSS_BOOTSTRAP_THEME_LOCATION);
 			for (Resource resource : resources)
 			{
-
-				availableStyles.add(Style.createLocal(resource.getFilename()));
+				Style style = Style.createLocal(resource.getFilename());
+				if (!availableStyles.containsKey(style.getName()) || style.getLocation().contains(".min.css"))
+				{
+					availableStyles.put(style.getName(), style);
+				}
 			}
 		}
 		catch (IOException e)
@@ -69,7 +88,7 @@ public class StyleServiceImpl implements StyleService
 			e.printStackTrace();
 		}
 
-		return availableStyles;
+		return availableStyles.values();
 	}
 
 	@Override
@@ -124,22 +143,26 @@ public class StyleServiceImpl implements StyleService
 	 * @return <code>true</code> if the given HTTP URL has returned response code 200-399 on a HEAD request within the
 	 *         given timeout, otherwise <code>false</code>.
 	 */
-	private static boolean isURLReachable(String url, int timeout)
+	private boolean isURLReachable(String url)
 	{
 		// Otherwise an exception may be thrown on invalid SSL certificates:
 		url = url.replaceFirst("^https", "http");
 
 		try
 		{
-			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-			connection.setConnectTimeout(timeout);
-			connection.setReadTimeout(timeout);
-			connection.setRequestMethod("HEAD");
-			int responseCode = connection.getResponseCode();
-			return (200 <= responseCode && responseCode <= 399);
+			ClientHttpRequest request = clientHttpRequestFactory.createRequest(new URI(url), HttpMethod.HEAD);
+			ClientHttpResponse response = request.execute();
+			HttpStatus status = response.getStatusCode();
+			return status.is2xxSuccessful();
 		}
 		catch (IOException exception)
 		{
+			LOG.warn("Failed to connect to bootswatch server, serving only local styles");
+			return false;
+		}
+		catch (URISyntaxException e)
+		{
+			LOG.error("Error parsing bootswatch style URL!", e);
 			return false;
 		}
 	}
