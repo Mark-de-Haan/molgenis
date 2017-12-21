@@ -14,7 +14,7 @@
     <properties>
         <!-- spring boot properties -->
         <spring-boot.version>1.5.9.RELEASE</spring-boot.version>
-        <start-class>org.molgenis.app.MolgenisApplication</start-class>
+        <start-class>org.molgenis.app.ApplicationInitializer</start-class>
     </properties>
 
     <build>
@@ -75,13 +75,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
-        </dependency>
-
-        <!-- Provided dependencies in runnable WAR: tomcat and logging -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
