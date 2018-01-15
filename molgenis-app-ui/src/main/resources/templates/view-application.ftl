@@ -10,7 +10,7 @@
 
         <!-- Bootstrap + Font Awesome stylesheets -->
         <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="/css/fontawesome.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
 
         <!-- Browser tab icon -->
         <link rel="shortcut icon" href="https://avatars1.githubusercontent.com/u/1688158?v=4&s=280"/>

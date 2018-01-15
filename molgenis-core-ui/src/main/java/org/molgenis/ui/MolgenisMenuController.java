@@ -23,7 +23,7 @@ import static java.time.ZonedDateTime.now;
 import static java.time.format.FormatStyle.MEDIUM;
 import static org.molgenis.web.PluginAttributes.KEY_CONTEXT_URL;
 
-@Controller
+//@Controller
 //@RequestMapping(URI)
 public class MolgenisMenuController
 {
