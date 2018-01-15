@@ -919,6 +919,7 @@
         <module>molgenis-amazon-bucket</module>
         <module>molgenis-api-tests</module>
         <module>molgenis-app</module>
+        <module>molgenis-app-ui</module>
         <module>molgenis-apps</module>
         <module>molgenis-bootstrap</module>
         <module>molgenis-core-ui</module>
