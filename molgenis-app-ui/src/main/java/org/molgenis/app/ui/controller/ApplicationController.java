@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import static java.util.Objects.requireNonNull;
 import static org.molgenis.app.ui.controller.ApplicationController.APPLICATION_ROOT_URI;
 
-/**
- * Loads the application SPA
- * Routing inside the SPA resolves further url paths
- */
 @Controller
 @RequestMapping(APPLICATION_ROOT_URI)
 public class ApplicationController
@@ -34,12 +30,12 @@ public class ApplicationController
 	@GetMapping("/**")
 	public String initApplication(Model model)
 	{
-		LOG.info("Loading MOLGENIS application");
+		LOG.debug("Loading MOLGENIS application");
 
-		LOG.info("Loading initial model through application initialization service");
+		LOG.debug("Loading initial model through application initialization service");
 		applicationInitializationService.loadInitialModel(model);
 
-		LOG.info("Loading application view");
+		LOG.debug("Loading application view");
 		return APPLICATION_ROOT_VIEW;
 	}
 }
