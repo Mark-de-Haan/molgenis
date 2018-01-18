@@ -30,10 +30,7 @@
             </div>
         </div>
 
-        <!-- Load extra javascript after initial page rendering -->
-        <script src="/js/test.js"></script>
-
-        <!-- The SPA application -->
+        <!-- Load Application javascript after initial page rendering -->
         <#--<script src="/js/spa-application/manifest.452894673a57cd991eb6.js"></script>-->
         <#--<script src="/js/spa-application/vendor.f5020d8aecdef3889e93.js"></script>-->
         <#--<script src="/js/spa-application/app.813f4e934ff8a670e8b0.js"></script>-->

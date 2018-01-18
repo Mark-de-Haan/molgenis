@@ -1,5 +1,6 @@
-package org.molgenis.app.ui.service;
+package org.molgenis.app.ui.service.impl;
 
+import org.molgenis.app.ui.service.ApplicationInitializationService;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 

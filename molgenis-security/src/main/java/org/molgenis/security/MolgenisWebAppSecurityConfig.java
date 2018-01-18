@@ -164,6 +164,9 @@ public abstract class MolgenisWebAppSecurityConfig extends WebSecurityConfigurer
 				.antMatchers(GOOGLE_AUTHENTICATION_URL)
 				.permitAll()
 
+				.antMatchers("/plugins/**")
+				.permitAll()
+
 				.antMatchers("/beacon/**")
 				.permitAll()
 
