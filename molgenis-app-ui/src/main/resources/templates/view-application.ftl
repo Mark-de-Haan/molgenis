@@ -12,6 +12,9 @@
         <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
 
+        <!-- Bootstrap bundle which includes jQuery and popper.js -->
+        <script src="/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
         <!-- Browser tab icon -->
         <link rel="shortcut icon" href="https://avatars1.githubusercontent.com/u/1688158?v=4&s=280"/>
     </head>

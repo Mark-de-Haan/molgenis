@@ -1,6 +1,6 @@
 package org.molgenis.app.ui.controller;
 
-import org.molgenis.app.ui.model.DynamicPlugin;
+import org.molgenis.app.ui.model.DynamicPluginResponse;
 import org.molgenis.app.ui.service.DynamicPluginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ public class DynamicPluginController
 
 	@GetMapping("/list")
 	@ResponseBody
-	public List<DynamicPlugin> getDynamicPlugins()
+	public List<DynamicPluginResponse> getDynamicPlugins()
 	{
 		return dynamicPluginService.getDynamicPlugins();
 	}
@@ -38,5 +38,11 @@ public class DynamicPluginController
 	public void activatePlugin(@PathVariable(value = "id") String id)
 	{
 		dynamicPluginService.activatePlugin(id);
+	}
+
+	@PostMapping("/deactivate/{id}")
+	public void deactivatePlugin(@PathVariable(value = "id") String id)
+	{
+		dynamicPluginService.deactivatePlugin(id);
 	}
 }

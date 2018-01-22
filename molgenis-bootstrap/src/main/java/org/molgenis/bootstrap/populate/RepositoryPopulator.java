@@ -1,5 +1,6 @@
 package org.molgenis.bootstrap.populate;
 
+import org.molgenis.app.ui.meta.populator.DynamicPluginPopulator;
 import org.molgenis.data.DataService;
 import org.molgenis.script.core.ScriptTypePopulator;
 import org.molgenis.settings.SettingsPopulator;
@@ -28,12 +29,13 @@ public class RepositoryPopulator
 	private final I18nPopulator i18nPopulator;
 	private final ScriptTypePopulator scriptTypePopulator;
 	private final GenomeBrowserAttributesPopulator genomeBrowserAttributesPopulator;
+	private final DynamicPluginPopulator dynamicPluginPopulator;
 
 	public RepositoryPopulator(DataService dataService, UsersGroupsAuthoritiesPopulator usersGroupsAuthoritiesPopulator,
 			SystemEntityPopulator systemEntityPopulator, PluginPopulator pluginPopulator,
 			SettingsPopulator settingsPopulator,
 			I18nPopulator i18nPopulator, ScriptTypePopulator scriptTypePopulator,
-			GenomeBrowserAttributesPopulator genomeBrowserAttributesPopulator)
+			GenomeBrowserAttributesPopulator genomeBrowserAttributesPopulator, DynamicPluginPopulator dynamicPluginPopulator)
 	{
 		this.dataService = requireNonNull(dataService);
 		this.usersGroupsAuthoritiesPopulator = requireNonNull(usersGroupsAuthoritiesPopulator);
@@ -43,6 +45,7 @@ public class RepositoryPopulator
 		this.i18nPopulator = requireNonNull(i18nPopulator);
 		this.scriptTypePopulator = requireNonNull(scriptTypePopulator);
 		this.genomeBrowserAttributesPopulator = requireNonNull(genomeBrowserAttributesPopulator);
+		this.dynamicPluginPopulator = requireNonNull(dynamicPluginPopulator);
 	}
 
 	public void populate(ContextRefreshedEvent event)
@@ -83,6 +86,9 @@ public class RepositoryPopulator
 		scriptTypePopulator.populate();
 		LOG.trace("Populated script type entities");
 
+		LOG.trace("Populating dynamic plugin entities ...");
+		dynamicPluginPopulator.populate();
+		LOG.trace("Populated dynamic plugin entities");
 	}
 
 	private boolean isDatabasePopulated()
