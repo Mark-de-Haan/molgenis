@@ -1,11 +1,9 @@
 package org.molgenis.core.ui;
 
-import org.springframework.stereotype.Controller;
-
 /**
  * Redirects '/' to the active plugin in the main menu
  */
-@Controller
+//@Controller
 //@RequestMapping("/") Disable root listener due to SPA project
 public class MolgenisRootController
 {

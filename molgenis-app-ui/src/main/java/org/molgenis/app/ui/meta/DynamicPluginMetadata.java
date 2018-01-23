@@ -1,7 +1,6 @@
 package org.molgenis.app.ui.meta;
 
 import org.molgenis.data.meta.SystemEntityType;
-import org.springframework.stereotype.Component;
 
 import static java.util.Objects.requireNonNull;
 import static org.molgenis.app.ui.meta.UserInterfacePackage.USER_INTERFACE_PACKAGE;
@@ -10,7 +9,7 @@ import static org.molgenis.data.meta.AttributeType.TEXT;
 import static org.molgenis.data.meta.model.EntityType.AttributeRole.*;
 import static org.molgenis.data.meta.model.Package.PACKAGE_SEPARATOR;
 
-@Component
+//@Component
 public class DynamicPluginMetadata extends SystemEntityType
 {
 	private static final String SIMPLE_NAME = "DynamicPlugin";

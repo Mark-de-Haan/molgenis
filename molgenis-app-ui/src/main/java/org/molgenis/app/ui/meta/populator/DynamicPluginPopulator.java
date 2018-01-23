@@ -2,14 +2,13 @@ package org.molgenis.app.ui.meta.populator;
 
 import org.molgenis.app.ui.meta.DynamicPlugin;
 import org.molgenis.data.DataService;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 import static org.molgenis.app.ui.meta.DynamicPluginMetadata.DYNAMIC_PLUGIN;
 
-@Component
+//@Component
 public class DynamicPluginPopulator
 {
 	private final DataService dataService;

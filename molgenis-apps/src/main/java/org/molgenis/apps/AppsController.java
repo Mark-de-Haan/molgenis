@@ -11,7 +11,6 @@ import org.molgenis.web.ErrorMessageResponse;
 import org.molgenis.web.PluginController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +28,7 @@ import static org.molgenis.apps.model.AppMetaData.APP;
 import static org.molgenis.core.ui.FileStoreConstants.FILE_STORE_PLUGIN_APPS_PATH;
 import static org.springframework.http.HttpStatus.*;
 
-@Controller
+//@Controller
 @RequestMapping(URI)
 public class AppsController extends PluginController
 {

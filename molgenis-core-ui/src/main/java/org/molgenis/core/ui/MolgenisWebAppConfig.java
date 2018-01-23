@@ -12,9 +12,7 @@ import org.molgenis.core.ui.menu.MenuReaderServiceImpl;
 import org.molgenis.core.ui.messageconverter.CsvHttpMessageConverter;
 import org.molgenis.core.ui.security.MolgenisUiPermissionDecorator;
 import org.molgenis.core.ui.style.StyleService;
-import org.molgenis.core.ui.style.ThemeFingerprintRegistry;
 import org.molgenis.core.util.GsonHttpMessageConverter;
-import org.molgenis.core.util.ResourceFingerprintRegistry;
 import org.molgenis.data.DataService;
 import org.molgenis.data.convert.StringToDateConverter;
 import org.molgenis.data.convert.StringToDateTimeConverter;
@@ -29,7 +27,6 @@ import org.molgenis.security.settings.AuthenticationSettings;
 import org.molgenis.security.token.TokenExtractor;
 import org.molgenis.settings.AppSettings;
 import org.molgenis.util.ApplicationContextProvider;
-import org.molgenis.web.PluginController;
 import org.molgenis.web.PluginInterceptor;
 import org.molgenis.web.Ui;
 import org.molgenis.web.i18n.MolgenisLocaleResolver;
@@ -52,7 +49,10 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.MappedInterceptor;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
@@ -186,37 +186,10 @@ public abstract class MolgenisWebAppConfig extends WebMvcConfigurerAdapter
 	}
 
 	@Override
-	public void addInterceptors(InterceptorRegistry registry)
-	{
-		String pluginInterceptPattern = PluginController.PLUGIN_URI_PREFIX + "**";
-		registry.addInterceptor(molgenisInterceptor());
-		registry.addInterceptor(molgenisPluginInterceptor()).addPathPatterns(pluginInterceptPattern);
-	}
-
-	@Override
 	public void addFormatters(FormatterRegistry registry)
 	{
 		registry.addConverter(new StringToDateTimeConverter());
 		registry.addConverter(new StringToDateConverter());
-	}
-
-	@Bean
-	public ResourceFingerprintRegistry resourceFingerprintRegistry()
-	{
-		return new ResourceFingerprintRegistry();
-	}
-
-	@Bean
-	public ThemeFingerprintRegistry themeFingerprintRegistry()
-	{
-		return new ThemeFingerprintRegistry(styleService);
-	}
-
-	@Bean
-	public MolgenisInterceptor molgenisInterceptor()
-	{
-		return new MolgenisInterceptor(resourceFingerprintRegistry(), themeFingerprintRegistry(), appSettings,
-				authenticationSettings, environment, messageSource);
 	}
 
 	@Bean

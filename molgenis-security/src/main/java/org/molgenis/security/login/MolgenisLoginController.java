@@ -5,7 +5,6 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.molgenis.security.login.MolgenisLoginController.URI;
 
-@Controller
+//@Controller
 @RequestMapping(URI)
 public class MolgenisLoginController
 {

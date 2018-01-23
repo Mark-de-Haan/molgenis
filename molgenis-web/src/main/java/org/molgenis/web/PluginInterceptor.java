@@ -6,7 +6,6 @@ import org.molgenis.security.core.PermissionService;
 import org.molgenis.security.core.utils.SecurityUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +15,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * Interceptor that adds default model objects to all plugin requests that return a view.
  */
-public class PluginInterceptor extends HandlerInterceptorAdapter
+public class PluginInterceptor
 {
 	private final Ui molgenisUi;
 	private final PermissionService permissionService;
@@ -27,7 +26,7 @@ public class PluginInterceptor extends HandlerInterceptorAdapter
 		this.permissionService = requireNonNull(permissionService);
 	}
 
-	@Override
+//	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
 	{
 		PluginController molgenisPlugin = validateHandler(handler);
@@ -42,7 +41,7 @@ public class PluginInterceptor extends HandlerInterceptorAdapter
 		return true;
 	}
 
-	@Override
+//	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception
 	{

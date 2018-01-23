@@ -9,7 +9,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.MessageSourceResourceBundle;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +21,7 @@ import static org.molgenis.web.PluginAttributes.*;
 /**
  * Interceptor that adds default model objects to all requests that return a view.
  */
-public class MolgenisInterceptor extends HandlerInterceptorAdapter
+public class MolgenisInterceptor
 {
 	private final ResourceFingerprintRegistry resourceFingerprintRegistry;
 	private final ThemeFingerprintRegistry themeFingerprintRegistry;
@@ -46,7 +45,7 @@ public class MolgenisInterceptor extends HandlerInterceptorAdapter
 		this.messageSource = requireNonNull(messageSource);
 	}
 
-	@Override
+//	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception
 	{

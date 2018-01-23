@@ -3,12 +3,11 @@ package org.molgenis.app.ui.meta;
 import org.molgenis.data.meta.SystemPackage;
 import org.molgenis.data.meta.model.PackageMetadata;
 import org.molgenis.data.system.model.RootSystemPackage;
-import org.springframework.stereotype.Component;
 
 import static java.util.Objects.requireNonNull;
 import static org.molgenis.data.system.model.RootSystemPackage.PACKAGE_SYSTEM;
 
-@Component
+//@Component
 public class UserInterfacePackage extends SystemPackage
 {
 	public static final String SIMPLE_NAME = "ui";

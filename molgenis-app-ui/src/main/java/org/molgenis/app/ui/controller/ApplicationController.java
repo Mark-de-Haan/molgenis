@@ -27,7 +27,7 @@ public class ApplicationController
 		this.applicationInitializationService = requireNonNull(applicationInitializationService);
 	}
 
-	@GetMapping("/**")
+	@GetMapping
 	public String initApplication(Model model)
 	{
 		LOG.debug("Loading MOLGENIS application");

@@ -4,7 +4,6 @@ import org.molgenis.app.ui.model.DynamicPluginResponse;
 import org.molgenis.app.ui.service.DynamicPluginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 import static org.molgenis.app.ui.controller.DynamicPluginController.DYNAMIC_PLUGIN_CONTROLLER_URI;
 
-@Controller
+//@Controller
 @RequestMapping(DYNAMIC_PLUGIN_CONTROLLER_URI)
 public class DynamicPluginController
 {

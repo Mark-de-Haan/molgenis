@@ -1,7 +1,6 @@
 package org.molgenis.security;
 
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -13,17 +12,17 @@ import java.io.IOException;
 /**
  * @author bchild
  */
-public class AjaxAwareLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint
+public class AjaxAwareLoginUrlAuthenticationEntryPoint
 {
 	private static final RequestMatcher REQUEST_MATCHER_XML_HTTP_REQUEST = new RequestHeaderRequestMatcher(
 			"X-Requested-With", "XMLHttpRequest");
 
-	AjaxAwareLoginUrlAuthenticationEntryPoint(String loginFormUrl)
-	{
-		super(loginFormUrl);
-	}
+//	AjaxAwareLoginUrlAuthenticationEntryPoint(String loginFormUrl)
+//	{
+//		super(loginFormUrl);
+//	}
 
-	@Override
+//	@Override
 	public void commence(final HttpServletRequest request, final HttpServletResponse response,
 			final AuthenticationException authException) throws IOException, ServletException
 	{
@@ -37,7 +36,7 @@ public class AjaxAwareLoginUrlAuthenticationEntryPoint extends LoginUrlAuthentic
 		}
 		else
 		{
-			super.commence(request, response, authException);
+//			super.commence(request, response, authException);
 		}
 	}
 
