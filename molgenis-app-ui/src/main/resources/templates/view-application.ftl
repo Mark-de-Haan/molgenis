@@ -13,13 +13,13 @@
         <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
 
         <!-- JQuery -->
-        <#--<script src="/js/jquery-3.3.1.min.js" type="text/javascript"></script>-->
+        <script src="/js/jquery-3.3.1.min.js" type="text/javascript"></script>
 
         <!-- Bootstrap bundle which includes popper.js -->
-        <#--<script src="/js/bootstrap.bundle.min.js" type="text/javascript"></script>-->
+        <script src="/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
         <!-- VueJS for including Dynamic plugins -->
-        <#--<script src="/js/vue.min.js" type="text/javascript"></script>-->
+        <script src="/js/vue.min.js" type="text/javascript"></script>
 
         <!-- Browser tab icon -->
         <link rel="shortcut icon" href="https://avatars1.githubusercontent.com/u/1688158?v=4&s=280"/>
@@ -32,18 +32,36 @@
     <body>
 
         <!-- Application container -->
-        <div id="application-container">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1>Welcome to MOLGENIS</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="application-container"></div>
+
+        <!-- Load initial state for Vue application -->
+        <script>
+            window.MOLGENIS_PLUGIN_ROUTES = [
+                {
+                    id: 'hello-world',
+                    name: 'Hello World',
+                    props: {
+                        props: {
+                            component: require('/plugins/Test.vue'),
+                            name: 'Hello World'
+                        }
+                    }
+                },
+                {
+                    id: 'bye-world',
+                    name: 'Bye World',
+                    props: {
+                        props: {
+                            url: '/Users/mdehaan/git/vue-playground/molgenis-ui-bootstrap/src/components/biobank-explorer/index.html',
+                            name: 'Bye World'
+                        }
+                    }
+                }
+            ]
+        </script>
 
         <!-- Load Application javascript after initial page rendering -->
-       <script src="js/application/molgenis-application.js" type="text/javascript"></script>
+       <script src="/js/application/molgenis-application.js" type="text/javascript"></script>
     </body>
 
 </html>
