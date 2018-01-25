@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- Bootstrap + Font Awesome stylesheets -->
-        <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
 
         <!-- JQuery -->
