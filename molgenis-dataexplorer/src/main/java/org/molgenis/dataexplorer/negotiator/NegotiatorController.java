@@ -24,6 +24,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
@@ -38,8 +39,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.molgenis.dataexplorer.negotiator.NegotiatorController.URI;
+import static org.molgenis.dataexplorer.negotiator.config.NegotiatorAuthenticationType.BEARER;
 import static org.molgenis.dataexplorer.negotiator.config.NegotiatorEntityConfigMeta.ENABLED_EXPRESSION;
 import static org.springframework.context.i18n.LocaleContextHolder.getLocale;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Controller
@@ -118,7 +121,8 @@ public class NegotiatorController extends PluginController
 			throw new MolgenisDataException(
 					messageSource.getMessage("dataexplorer_directory_no_config", new Object[] {}, getLocale()));
 		}
-		return ExportValidationResponse.create(isValidRequest, message, enabledCollectionsLabels , disabledCollectionLabels);
+		return ExportValidationResponse.create(isValidRequest, message, enabledCollectionsLabels,
+				disabledCollectionLabels);
 	}
 
 	@PostMapping("/export")
@@ -227,9 +231,17 @@ public class NegotiatorController extends PluginController
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(APPLICATION_JSON);
-		String username = config.getUsername();
-		String password = config.getPassword();
-		headers.set("Authorization", generateBase64Authentication(username, password));
+
+		String auth;
+		if (config.getAuthenticationType() == BEARER)
+		{
+			auth = generateBearerAuthentication(config);
+		}
+		else
+		{
+			auth = generateBase64Authentication(config.getUsername(), config.getPassword());
+		}
+		headers.set("Authorization", auth);
 
 		return new HttpEntity<>(query, headers);
 	}
@@ -253,6 +265,41 @@ public class NegotiatorController extends PluginController
 		String userPass = username + ":" + password;
 		String userPassBase64 = Base64.getEncoder().encodeToString(userPass.getBytes(UTF_8));
 		return "Basic " + userPassBase64;
+	}
+
+	/**
+	 * Generate bearer authentication
+	 *
+	 * @param config Negotiator config containing bearer token url, username, and password
+	 * @return Authentication header value
+	 */
+	private String generateBearerAuthentication(NegotiatorConfig config)
+	{
+		return "Bearer " + fetchBearerToken(config.getBearerTokenUrl(), config.getUsername(), config.getPassword());
+	}
+
+	private String fetchBearerToken(String bearerTokenUrl, String username, String password)
+	{
+		LOG.trace("Fetching bearer authentication token from {}", bearerTokenUrl);
+
+		try
+		{
+			//			Map<String, String> parameters = newHashMap();
+			//			parameters.put("username", username);
+			//			parameters.put("password", password);
+
+			// FIXME where to send username and password
+			ResponseEntity<String> response = restTemplate.exchange(bearerTokenUrl, GET, null, String.class);
+
+			LOG.trace("Received response from bearer authentication endpoint: {}", response);
+
+			return response.toString();
+		}
+		catch (RestClientException e)
+		{
+			LOG.error("Fetching the bearer authentication token failed: ", e);
+			throw e;
+		}
 	}
 
 	@ExceptionHandler(RuntimeException.class)

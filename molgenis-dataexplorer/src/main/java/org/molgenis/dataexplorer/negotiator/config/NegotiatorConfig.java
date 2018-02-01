@@ -24,6 +24,7 @@ public class NegotiatorConfig extends StaticEntity
 	{
 		super(identifier, entityType);
 	}
+
 	@Nullable
 	public String getUsername()
 	{
@@ -40,6 +41,17 @@ public class NegotiatorConfig extends StaticEntity
 	public String getNegotiatorURL()
 	{
 		return getString(NEGOTIATOR_URL);
+	}
+
+	public NegotiatorAuthenticationType getAuthenticationType()
+	{
+		return NegotiatorAuthenticationType.valueOf(getString(AUTHENTICATION));
+	}
+
+	@Nullable
+	public String getBearerTokenUrl()
+	{
+		return getString(BEARER_TOKEN_URL);
 	}
 
 }
