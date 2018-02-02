@@ -54,4 +54,15 @@ public class NegotiatorConfig extends StaticEntity
 		return getString(BEARER_TOKEN_URL);
 	}
 
+	@Nullable
+	public String getBearerUsername()
+	{
+		return getString(BEARER_TOKEN_USERNAME);
+	}
+
+	@Nullable
+	public String getBearerPassword()
+	{
+		return getString(BEARER_TOKEN_PASSWORD);
+	}
 }

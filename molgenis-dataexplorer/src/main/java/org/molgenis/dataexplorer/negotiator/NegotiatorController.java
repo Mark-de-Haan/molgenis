@@ -24,8 +24,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -42,7 +43,7 @@ import static org.molgenis.dataexplorer.negotiator.NegotiatorController.URI;
 import static org.molgenis.dataexplorer.negotiator.config.NegotiatorAuthenticationType.BEARER;
 import static org.molgenis.dataexplorer.negotiator.config.NegotiatorEntityConfigMeta.ENABLED_EXPRESSION;
 import static org.springframework.context.i18n.LocaleContextHolder.getLocale;
-import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Controller
@@ -250,8 +251,53 @@ public class NegotiatorController extends PluginController
 	{
 		Query<NegotiatorEntityConfig> query = new QueryImpl<NegotiatorEntityConfig>().eq(
 				NegotiatorEntityConfigMeta.ENTITY, entityId);
+
 		return dataService.findOne(NegotiatorEntityConfigMeta.NEGOTIATORENTITYCONFIG, query,
 				NegotiatorEntityConfig.class);
+	}
+
+	/**
+	 * Generate bearer authentication
+	 * <p>
+	 * Use bearerUsername and bearerPassword to create a base64 auth token to retrieve a token from the bearerTokenUrl to create a
+	 * Bearer <token></token>
+	 *
+	 * @param config Negotiator config containing bearer token url, username, and password
+	 * @return Authentication header value
+	 */
+	public String generateBearerAuthentication(NegotiatorConfig config)
+	{
+		LOG.info("Fetching bearer authentication token from {}", config.getBearerTokenUrl());
+
+		try
+		{
+			// FIXME Create correct token
+//			String base64Token = generateBase64Authentication(config.getBearerUsername(), config.getBearerPassword());
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Authorization", "Basic d2ViX2FwcDo=");
+			headers.setContentType(APPLICATION_FORM_URLENCODED);
+
+			MultiValueMap<String, Object> query = new LinkedMultiValueMap<>();
+			query.add("grant_type", "password");
+			query.add("username", config.getUsername());
+			query.add("password", config.getPassword());
+
+			HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(query, headers);
+
+			LOG.info("Sending request {}", request);
+
+			BearerResponse response = restTemplate.postForObject(config.getBearerTokenUrl(), request, BearerResponse.class);
+
+			LOG.info("Received response from bearer authentication endpoint: {}", response);
+
+			return "Bearer " + response.getAccess_token();
+		}
+		catch (RestClientException e)
+		{
+			LOG.error("Fetching the bearer authentication token failed: ", e);
+			throw e;
+		}
 	}
 
 	/**
@@ -265,41 +311,6 @@ public class NegotiatorController extends PluginController
 		String userPass = username + ":" + password;
 		String userPassBase64 = Base64.getEncoder().encodeToString(userPass.getBytes(UTF_8));
 		return "Basic " + userPassBase64;
-	}
-
-	/**
-	 * Generate bearer authentication
-	 *
-	 * @param config Negotiator config containing bearer token url, username, and password
-	 * @return Authentication header value
-	 */
-	private String generateBearerAuthentication(NegotiatorConfig config)
-	{
-		return "Bearer " + fetchBearerToken(config.getBearerTokenUrl(), config.getUsername(), config.getPassword());
-	}
-
-	private String fetchBearerToken(String bearerTokenUrl, String username, String password)
-	{
-		LOG.trace("Fetching bearer authentication token from {}", bearerTokenUrl);
-
-		try
-		{
-			//			Map<String, String> parameters = newHashMap();
-			//			parameters.put("username", username);
-			//			parameters.put("password", password);
-
-			// FIXME where to send username and password
-			ResponseEntity<String> response = restTemplate.exchange(bearerTokenUrl, GET, null, String.class);
-
-			LOG.trace("Received response from bearer authentication endpoint: {}", response);
-
-			return response.toString();
-		}
-		catch (RestClientException e)
-		{
-			LOG.error("Fetching the bearer authentication token failed: ", e);
-			throw e;
-		}
 	}
 
 	@ExceptionHandler(RuntimeException.class)

@@ -22,6 +22,9 @@ class NegotiatorConfigMeta extends SystemEntityType
 	public static final String PASSWORD = "password";
 	public static final String AUTHENTICATION = "authentication";
 	public static final String BEARER_TOKEN_URL = "bearer_token_url";
+	public static final String BEARER_TOKEN_USERNAME = "bearer_token_username";
+	@java.lang.SuppressWarnings("squid:S2068")
+	public static final String BEARER_TOKEN_PASSWORD = "bearer_token_password";
 
 	private static final String BEARER_TOKEN_URL_NULLABLE_EXPRESSION =
 			"$('" + AUTHENTICATION + "').value() !== '" + getValueString(BEARER) + "'";
@@ -59,7 +62,17 @@ class NegotiatorConfigMeta extends SystemEntityType
 									  .setNullableExpression(BEARER_TOKEN_URL_NULLABLE_EXPRESSION)
 									  .setDescription(
 											  "Defines the endpoint from which a Bearer token needs to be fetched.")
-									  .setLabel("Bearer token endpoint");
+									  .setLabel("Bearer token endpoint url");
+
+		addAttribute(BEARER_TOKEN_USERNAME).setVisibleExpression(BEARER_TOKEN_URL_VISIBLE_EXPRESSION)
+										   .setNullableExpression(BEARER_TOKEN_URL_NULLABLE_EXPRESSION)
+										   .setDescription("Set username used for Bearer endpoint authentication.")
+										   .setLabel("Bearer token endpoint username");
+
+		addAttribute(BEARER_TOKEN_PASSWORD).setVisibleExpression(BEARER_TOKEN_URL_VISIBLE_EXPRESSION)
+										   .setNullableExpression(BEARER_TOKEN_URL_NULLABLE_EXPRESSION)
+										   .setDescription("Set password used for Bearer endpoint authentication.")
+										   .setLabel("Bearer token endpoint password");
 	}
 }
 

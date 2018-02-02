@@ -11,10 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.ByteArrayHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.ResourceHttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.*;
 import org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter;
 import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
 import org.springframework.http.converter.xml.SourceHttpMessageConverter;
@@ -58,6 +55,7 @@ public class HttpClientConfig
 		result.add(new SourceHttpMessageConverter<>());
 		result.add(new AllEncompassingFormHttpMessageConverter());
 		result.add(new Jaxb2RootElementHttpMessageConverter());
+		result.add(new FormHttpMessageConverter());
 		result.add(gsonHttpMessageConverter);
 		return result;
 	}
