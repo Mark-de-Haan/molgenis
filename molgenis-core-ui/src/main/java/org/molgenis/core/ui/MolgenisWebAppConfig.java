@@ -13,7 +13,6 @@ import org.molgenis.core.ui.messageconverter.CsvHttpMessageConverter;
 import org.molgenis.core.ui.security.MolgenisUiPermissionDecorator;
 import org.molgenis.core.ui.style.StyleService;
 import org.molgenis.core.ui.style.ThemeFingerprintRegistry;
-import org.molgenis.core.util.GsonHttpMessageConverter;
 import org.molgenis.core.util.ResourceFingerprintRegistry;
 import org.molgenis.data.DataService;
 import org.molgenis.data.convert.StringToDateConverter;
@@ -47,6 +46,7 @@ import org.springframework.http.converter.BufferedImageHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -71,7 +71,7 @@ import static org.molgenis.core.ui.FileStoreConstants.FILE_STORE_PLUGIN_APPS_PAT
 import static org.molgenis.security.UriConstants.PATH_SEGMENT_APPS;
 
 @Import({ PlatformConfig.class, RdfConverter.class })
-public abstract class MolgenisWebAppConfig extends WebMvcConfigurerAdapter
+public abstract class MolgenisWebAppConfig implements WebMvcConfigurer
 {
 	private static final String MOLGENIS_HOME = "molgenis.home";
 
