@@ -1,0 +1,11 @@
+$size: 5px;
+$brandColor: red;
+
+.selector {
+  margin: $size;
+  background-color: $brandColor;
+
+  .nested {
+    margin: $size / 2;
+  }
+}
