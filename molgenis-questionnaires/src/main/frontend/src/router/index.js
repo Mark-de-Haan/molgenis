@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // List of questionnaires
-import QuestionnaireList from '../components/QuestionnaireList'
+// import QuestionnaireList from '../components/QuestionnaireList'
 // Questionnaire + child routes
 import QuestionnaireContainer from '../components/QuestionnaireContainer'
 import QuestionnaireForm from '../components/QuestionnaireForm'
 import QuestionnaireThankYou from '../components/QuestionnaireThankYou'
 import QuestionnaireOverview from '../components/QuestionnaireOverview'
+
+import SurveyContainer from '../components/SurveyContainer'
+import SurveyEditor from '../components/SurveyEditor'
 
 const {baseUrl} = window.QUESTIONNAIRE_STATE
 
@@ -17,7 +20,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: QuestionnaireList
+      component: SurveyContainer
+    },
+    {
+      path: '/editor',
+      component: SurveyEditor
     },
     {
       path: '/:questionnaireName',

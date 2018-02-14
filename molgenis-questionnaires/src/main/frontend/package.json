@@ -18,6 +18,8 @@
     "@molgenis/molgenis-i18n-js": "^0.0.5",
     "@molgenis/molgenis-ui-form": "^0.9.3",
     "moment": "^2.20.1",
+    "survey-vue": "^1.0.7",
+    "surveyjs-editor": "^1.0.7",
     "vue": "^2.5.13",
     "vue-flatpickr": "^2.3.0",
     "vue-router": "^3.0.1"
