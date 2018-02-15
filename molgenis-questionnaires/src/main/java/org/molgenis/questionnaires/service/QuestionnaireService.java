@@ -1,11 +1,19 @@
 package org.molgenis.questionnaires.service;
 
+import org.molgenis.questionnaires.request.QuestionnaireCreateRequest;
 import org.molgenis.questionnaires.response.QuestionnaireResponse;
 
 import java.util.List;
 
 public interface QuestionnaireService
 {
+	/**
+	 * Creates a questionnaire and an additional questionnaire data table
+	 *
+	 * @param request A request containing questionnaire name and SurveyJS JSON schema
+	 */
+	void createQuestionnaire(QuestionnaireCreateRequest request);
+
 	/**
 	 * Return a list of all questionnaires
 	 * Creates a questionnaire entry for the current user if it does not yet exist
@@ -22,13 +30,4 @@ public interface QuestionnaireService
 	 * @return A {@link QuestionnaireResponse}
 	 */
 	QuestionnaireResponse getQuestionnaire(String id);
-
-	/**
-	 * Retrieve static content for a specific questionnaire containing a "Thank you" text which is shown
-	 * on submission
-	 *
-	 * @param id The ID of a questionnaire
-	 * @return A piece of text which can be shown after submission of a questionnaire
-	 */
-	String getQuestionnaireSubmissionText(String id);
 }

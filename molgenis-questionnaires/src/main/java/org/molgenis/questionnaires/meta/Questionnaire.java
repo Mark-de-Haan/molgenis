@@ -3,10 +3,10 @@ package org.molgenis.questionnaires.meta;
 import org.molgenis.data.Entity;
 import org.molgenis.data.meta.model.EntityType;
 import org.molgenis.data.support.StaticEntity;
+import org.molgenis.questionnaires.request.QuestionnaireCreateRequest;
 
-import static org.molgenis.data.security.owned.OwnedEntityType.OWNER_USERNAME;
-import static org.molgenis.i18n.LanguageService.getCurrentUserLanguageCode;
-import static org.molgenis.questionnaires.meta.QuestionnaireMetaData.ATTR_STATUS;
+import static org.molgenis.questionnaires.meta.QuestionnaireMetaData.NAME;
+import static org.molgenis.questionnaires.meta.QuestionnaireMetaData.SCHEMA;
 
 public class Questionnaire extends StaticEntity
 {
@@ -20,33 +20,29 @@ public class Questionnaire extends StaticEntity
 		super(entityType);
 	}
 
-	public String getId()
+	public Questionnaire(QuestionnaireCreateRequest request)
 	{
-		return getString(getEntityType().getId());
+		setName(request.getName());
+		setSchema(request.getSchema());
 	}
 
-	public QuestionnaireStatus getStatus()
+	public String getName()
 	{
-		return QuestionnaireStatus.valueOf(getString(ATTR_STATUS));
+		return getString(NAME);
 	}
 
-	public String getLabel()
+	public void setName(String name)
 	{
-		return getEntityType().getLabel(getCurrentUserLanguageCode());
+		set(NAME, name);
 	}
 
-	public String getDescription()
+	public String getSchema()
 	{
-		return getEntityType().getDescription(getCurrentUserLanguageCode());
+		return getString(SCHEMA);
 	}
 
-	public void setStatus(QuestionnaireStatus questionnaireStatus)
+	public void setSchema(String schema)
 	{
-		set(ATTR_STATUS, questionnaireStatus.toString());
-	}
-
-	public void setOwner(String owner)
-	{
-		set(OWNER_USERNAME, owner);
+		set(SCHEMA, schema);
 	}
 }

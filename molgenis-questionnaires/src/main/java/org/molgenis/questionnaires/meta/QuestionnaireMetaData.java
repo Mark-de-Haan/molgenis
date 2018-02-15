@@ -1,17 +1,12 @@
 package org.molgenis.questionnaires.meta;
 
 import org.molgenis.data.meta.SystemEntityType;
-import org.molgenis.data.security.owned.OwnedEntityType;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.Objects.requireNonNull;
-import static org.molgenis.data.meta.AttributeType.*;
+import static org.molgenis.data.meta.AttributeType.SCRIPT;
+import static org.molgenis.data.meta.model.EntityType.AttributeRole.ROLE_ID;
 import static org.molgenis.data.meta.model.Package.PACKAGE_SEPARATOR;
 import static org.molgenis.data.system.model.RootSystemPackage.PACKAGE_SYSTEM;
-import static org.molgenis.questionnaires.meta.QuestionnaireStatus.SUBMITTED;
 
 /**
  * Base EntityType for 'questionnaire' entities
@@ -22,38 +17,24 @@ public class QuestionnaireMetaData extends SystemEntityType
 	private static final String SIMPLE_NAME = "Questionnaire";
 	public static final String QUESTIONNAIRE = PACKAGE_SYSTEM + PACKAGE_SEPARATOR + SIMPLE_NAME;
 
-	public static final String ATTR_STATUS = "status";
-	public static final String SUBMIT_DATE = "submitDate";
+	public static final String NAME = "name";
+	public static final String SCHEMA = "schema";
 
-	private final OwnedEntityType ownedEntityType;
-
-	QuestionnaireMetaData(OwnedEntityType ownedEntityType)
+	QuestionnaireMetaData()
 	{
 		super(SIMPLE_NAME, PACKAGE_SYSTEM);
-		this.ownedEntityType = requireNonNull(ownedEntityType);
 	}
 
 	@Override
 	public void init()
 	{
 		setLabel("Questionnaire");
-		setAbstract(true);
-		setExtends(ownedEntityType);
+		setDescription("A table containing questionnaires");
 
-		List<String> enumOptions = new ArrayList<>();
-		for (QuestionnaireStatus questionnaireStatus : QuestionnaireStatus.values())
-		{
-			enumOptions.add(questionnaireStatus.toString());
-		}
-
-		addAttribute(ATTR_STATUS).setDataType(ENUM).setEnumOptions(enumOptions).setVisible(false).setNillable(false);
-
-		// Attribute turns required and visible when questionnaire is submitted
-		addAttribute(SUBMIT_DATE).setDataType(DATE_TIME)
-								 .setLabel("Submit date")
-								 .setNullableExpression(
-										 "$('" + ATTR_STATUS + "').value() !== '" + SUBMITTED.toString() + "'")
-								 .setVisibleExpression(
-										 "$('" + ATTR_STATUS + "').value() === '" + SUBMITTED.toString() + "'");
+		addAttribute(NAME, ROLE_ID);
+		addAttribute(SCHEMA).setDataType(SCRIPT)
+							.setNillable(false)
+							.setLabel("Questionnaire Schema")
+							.setDescription("JSON Schema to generate a SurveyJS questionnaire");
 	}
 }

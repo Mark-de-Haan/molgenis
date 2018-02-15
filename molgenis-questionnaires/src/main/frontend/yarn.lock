@@ -6007,27 +6007,27 @@ supports-color@^5.1.0:
   dependencies:
     has-flag "^2.0.0"
 
-survey-knockout@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/survey-knockout/-/survey-knockout-1.0.7.tgz#e6df9ada9e1e45c1cf1192e9acf8cf4c52d784d9"
+survey-knockout@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/survey-knockout/-/survey-knockout-1.0.8.tgz#134b61ca0fa1504248611ee4f7ffe783f6bbd1a1"
   dependencies:
     knockout "^3.4.0"
 
-survey-vue@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/survey-vue/-/survey-vue-1.0.7.tgz#97508f341f9ba98139ec615276bfb01ad1e72f97"
+survey-vue@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/survey-vue/-/survey-vue-1.0.8.tgz#2efa113f647cb4fbc58b73f089a6194fc75fa644"
   dependencies:
     vue "^2.1.10"
 
-surveyjs-editor@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/surveyjs-editor/-/surveyjs-editor-1.0.7.tgz#7c5959f03ce3f626299ff46670c9a1203d2af7d8"
+surveyjs-editor@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/surveyjs-editor/-/surveyjs-editor-1.0.8.tgz#9a2a8a5dc928a0fb4a2fb01804296077c3f92db1"
   dependencies:
     "@types/knockout" "^3.4.0"
     ace-builds "^1.2.2"
     bootstrap "^3.3.6"
     knockout "^3.4.0"
-    survey-knockout "^1.0.7"
+    survey-knockout "^1.0.8"
 
 svgo@^0.7.0:
   version "0.7.2"

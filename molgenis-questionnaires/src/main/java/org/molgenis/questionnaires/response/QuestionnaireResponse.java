@@ -22,9 +22,15 @@ public abstract class QuestionnaireResponse
 
 	public abstract Object getId();
 
+	public abstract String getQuestionnaireSchema();
+
+	@Nullable
+	public abstract String getQuestionnaireData();
+
 	public static QuestionnaireResponse create(Questionnaire questionnaire)
 	{
 		return new AutoValue_QuestionnaireResponse(questionnaire.getEntityType().getId(), questionnaire.getLabel(),
-				questionnaire.getDescription(), questionnaire.getStatus(), questionnaire.getIdValue());
+				questionnaire.getDescription(), questionnaire.getStatus(), questionnaire.getIdValue(),
+				questionnaire.getQuestionnaireSchema(), questionnaire.getQuestionnaireData());
 	}
 }
