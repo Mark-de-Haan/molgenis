@@ -92,7 +92,7 @@ Key | Type | Description
 --- | --- | ---
 *includeCategories* | boolean | Includes a list of categorical options in attribute metadata for CATEGORICAL and CATEGORICAL_MREF attributes
 
-## Example request - response
+### Example request - response
 **TableA**
 
 | id | category |
