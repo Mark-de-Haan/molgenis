@@ -1,5 +1,6 @@
 package org.molgenis.questionnaires.service;
 
+import org.molgenis.questionnaires.response.QuestionnaireListItemResponse;
 import org.molgenis.questionnaires.response.QuestionnaireResponse;
 
 import java.util.List;
@@ -8,19 +9,19 @@ public interface QuestionnaireService
 {
 	/**
 	 * Return a list of all questionnaires
-	 * Creates a questionnaire entry for the current user if it does not yet exist
+	 * Status is set to open if a questionnaire already has an entry for the current user.
 	 *
-	 * @return A List of {@link QuestionnaireResponse}
+	 * @return A List of {@link QuestionnaireListItemResponse}
 	 */
-	List<QuestionnaireResponse> getQuestionnaires();
+	List<QuestionnaireListItemResponse> getQuestionnaires();
 
 	/**
-	 * Start a questionnaire based on ID
-	 * Sets the questionnaire status to 'OPEN'
+	 * Retrieves a questionnaire row for the current user based on questionnaire ID.
+	 * If no row exists for the current user, a row is created.
 	 *
 	 * @param id The ID of a questionnaire
 	 */
-	void startQuestionnaire(String id);
+	QuestionnaireResponse getQuestionnaire(String id);
 
 	/**
 	 * Retrieve static content for a specific questionnaire containing a "Thank you" text which is shown

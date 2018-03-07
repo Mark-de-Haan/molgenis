@@ -3,7 +3,7 @@ package org.molgenis.questionnaires.response;
 import com.google.auto.value.AutoValue;
 import org.molgenis.core.gson.AutoGson;
 import org.molgenis.questionnaires.meta.Questionnaire;
-import org.molgenis.questionnaires.meta.QuestionnaireStatus;
+import org.molgenis.questionnaires.model.QuestionnaireMeta;
 
 import javax.annotation.Nullable;
 
@@ -11,20 +11,20 @@ import javax.annotation.Nullable;
 @AutoGson(autoValueClass = AutoValue_QuestionnaireResponse.class)
 public abstract class QuestionnaireResponse
 {
-	public abstract String getId();
+	public abstract String getRowId();
 
 	public abstract String getLabel();
 
 	@Nullable
 	public abstract String getDescription();
 
-	public abstract QuestionnaireStatus getStatus();
+	public abstract QuestionnaireMeta getMeta();
 
-	public abstract Object getQuestionnaireRowId();
+	public abstract Questionnaire getData();
 
-	public static QuestionnaireResponse create(Questionnaire questionnaire)
+	public static QuestionnaireResponse create(String rowId, String label, String description,
+			QuestionnaireMeta metadata, Questionnaire data)
 	{
-		return new AutoValue_QuestionnaireResponse(questionnaire.getEntityType().getId(), questionnaire.getLabel(),
-				questionnaire.getDescription(), questionnaire.getStatus(), questionnaire.getIdValue());
+		return new AutoValue_QuestionnaireResponse(rowId, label, description, metadata, data);
 	}
 }
