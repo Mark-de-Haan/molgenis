@@ -2,7 +2,7 @@ var webpackConfig = require('../../build/webpack.test.conf')
 
 module.exports = function (config) {
   config.set({
-    browsers: ['PhantomJS'], //ChromeCanary
+    browsers: ['PhantomJS'], // ChromeCanary
     frameworks: ['mocha', 'sinon-chai'],
     reporters: ['spec', 'coverage'],
     files: [
@@ -18,9 +18,10 @@ module.exports = function (config) {
       noInfo: true
     },
     coverageReporter: {
-      dir: '../../../../../target/generated-sources/coverage',
+      dir: './coverage',
       reporters: [
-        {type: 'cobertura', subdir: 'cobertura'}
+        {type: 'lcov', subdir: '.'},
+        {type: 'text-summary'}
       ]
     },
     junitReporter: {

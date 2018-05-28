@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
@@ -43,21 +44,21 @@ public class AppManagerController extends PluginController
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping("/activate/{id}")
+	@PostMapping("/activate/{id}")
 	public void activateApp(@PathVariable(value = "id") String id)
 	{
 		appManagerService.activateApp(id);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping("/deactivate/{id}")
+	@PostMapping("/deactivate/{id}")
 	public void deactivateApp(@PathVariable(value = "id") String id)
 	{
 		appManagerService.deactivateApp(id);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping("/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public void deleteApp(@PathVariable("id") String id) throws IOException
 	{
 		appManagerService.deleteApp(id);
@@ -67,6 +68,9 @@ public class AppManagerController extends PluginController
 	@PostMapping("/upload")
 	public void uploadApp(@RequestParam("file") MultipartFile multipartFile) throws IOException, ZipException
 	{
-		appManagerService.uploadApp(multipartFile);
+		InputStream fileInputStream = multipartFile.getInputStream();
+		String filename = multipartFile.getOriginalFilename();
+		String formFieldName = multipartFile.getName();
+		appManagerService.uploadApp(fileInputStream, filename, formFieldName);
 	}
 }

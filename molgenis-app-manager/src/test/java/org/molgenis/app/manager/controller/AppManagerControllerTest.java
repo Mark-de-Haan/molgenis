@@ -5,7 +5,7 @@ import org.mockito.Mock;
 import org.molgenis.app.manager.meta.App;
 import org.molgenis.app.manager.model.AppResponse;
 import org.molgenis.app.manager.service.AppManagerService;
-import org.molgenis.core.util.MolgenisGsonHttpMessageConverter;
+import org.molgenis.web.converter.MolgenisGsonHttpMessageConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -16,8 +16,7 @@ import org.testng.annotations.Test;
 import static com.google.common.collect.Lists.newArrayList;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Configuration
@@ -76,21 +75,21 @@ public class AppManagerControllerTest
 	@Test
 	public void testActivateApp() throws Exception
 	{
-		mockMvc.perform(get(AppManagerController.URI + "/activate/id")).andExpect(status().is(200));
+		mockMvc.perform(post(AppManagerController.URI + "/activate/id")).andExpect(status().is(200));
 		verify(appManagerService).activateApp("id");
 	}
 
 	@Test
 	public void testDeactivateApp() throws Exception
 	{
-		mockMvc.perform(get(AppManagerController.URI + "/deactivate/id")).andExpect(status().is(200));
+		mockMvc.perform(post(AppManagerController.URI + "/deactivate/id")).andExpect(status().is(200));
 		verify(appManagerService).deactivateApp("id");
 	}
 
 	@Test
 	public void testDeleteApp() throws Exception
 	{
-		mockMvc.perform(get(AppManagerController.URI + "/delete/id")).andExpect(status().is(200));
+		mockMvc.perform(delete(AppManagerController.URI + "/delete/id")).andExpect(status().is(200));
 		verify(appManagerService).deleteApp("id");
 	}
 

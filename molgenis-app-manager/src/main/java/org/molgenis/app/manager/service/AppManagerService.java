@@ -2,9 +2,9 @@ package org.molgenis.app.manager.service;
 
 import net.lingala.zip4j.exception.ZipException;
 import org.molgenis.app.manager.model.AppResponse;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public interface AppManagerService
@@ -16,7 +16,7 @@ public interface AppManagerService
 
 	/**
 	 * Retrieve an {@link AppResponse} based a unique URI
-	 * Throws an {@link org.molgenis.app.manager.exception.AppManagerException} when there is no app with the requested URI
+	 * Throws an {@link org.molgenis.app.manager.exception.AppForURIDoesNotExistException} when there is no app with the requested URI
 	 *
 	 * @param uri The URI of an App
 	 * @return An {@link AppResponse}
@@ -48,7 +48,11 @@ public interface AppManagerService
 	 * Upload an app
 	 * If zip fails to verify, throw an exception with the missing information
 	 *
-	 * @param multipartFile A zip file with the new app
+	 * @param zipData steam with app data in zip from
+	 * @param zipFileName the name of the zip file
+	 * @param formFieldName the value of the name field in the form
+	 * @throws IOException
+	 * @throws ZipException
 	 */
-	void uploadApp(MultipartFile multipartFile) throws IOException, ZipException;
+	void uploadApp(InputStream zipData, String zipFileName, String formFieldName) throws IOException, ZipException;
 }
